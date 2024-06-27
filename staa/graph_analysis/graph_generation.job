@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#SBATCH --partition=short
+#SBATCH --job-name=GTFSGraphGenerationJob
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=00:05:00
+#SBATCH --mem=32000M
+#SBATCH --output=slurm_output_%A.out
+
+module purge
+module load 2021
+module load Anaconda3/2021.05
+
+# Your job starts in the directory where you call sbatch
+cd $HOME/...
+
+# Activate your environment
+source activate thesis
+
+# Define env variables
+export PYTHONPATH=/home/fiorista/thesis/repo/eda
+export NUM_WORKERS=8
+export GTFS_DATA_DIR=/home/fiorista/thesis/repo/eda/data/day_gtfs_files
+export TRANSIT_GRAPH_DATA_DIR=/home/fiorista/thesis/repo/eda/data/transit_graph_data
+
+# Run code
+srun python -u graph_generation.py

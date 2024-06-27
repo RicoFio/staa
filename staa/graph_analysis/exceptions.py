@@ -1,0 +1,3 @@
+
+class GraphGenerationError(Exception):
+    pass

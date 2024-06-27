@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#SBATCH --partition=fat
+#SBATCH --job-name=GraphAccessibilityRouting
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=24
+#SBATCH --time=05:30:00
+#SBATCH --mem=64000M
+#SBATCH --output=slurm_output_%A.out
+
+module purge
+module load 2021
+module load Anaconda3/2021.05
+
+# Your job starts in the directory where you call sbatch
+cd $HOME/...
+
+# Activate your environment
+source activate thesis
+
+# Define env variables
+export NUM_WORKERS=12
+export GRAPH_DATA_DIR=/home/fiorista/thesis/repo/eda/data/transit_graphs
+export OPPORTUNITIES_GEO_JSON=/home/fiorista/thesis/repo/eda/data/Amsterdam/non_residential_functions_geojson_latlng.json
+export NEIGHBOURHOODS_GEO_JSON=/home/fiorista/thesis/repo/eda/data/Amsterdam/ams-neighbourhoods.geojson
+export RESULTS_PATH=/home/fiorista/thesis/repo/eda/accessibility_analysis/od_mat_results
+
+# Run code
+srun python -u all_graph_accessibility_analysis_schools.py
